@@ -1,0 +1,23 @@
+{
+  "name": "mehfil-restaurant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mehfil Restaurant & Bar - Authentic Hyderabadi Biryani Application",
+  "scripts": {
+    "dev": "npm --prefix client run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "build:client": "npm --prefix client run build",
+    "build:server": "npm --prefix server run build",
+    "build": "npm run build:client && npm run build:server"
+  },
+  "keywords": [
+    "mehfil",
+    "restaurant",
+    "biryani",
+    "hyderabad",
+    "nextjs",
+    "express"
+  ],
+  "author": "kopparthipallavi219"
+}

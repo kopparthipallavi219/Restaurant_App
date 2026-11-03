@@ -93,3 +93,4 @@ This repository includes a preconfigured `vercel.json` for one-click deployment:
 1. Connect this GitHub repository (`Restaurant_App`) to your **Vercel** account.
 2. Add your environment variables (`MONGODB_URI`, `JWT_SECRET`, etc.) in the Vercel project settings.
 3. Click **Deploy**.
+

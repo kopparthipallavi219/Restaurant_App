@@ -17,6 +17,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { CartDrawer } from '@/components/CartDrawer';
 import { fetchAPI } from '@/lib/api';
+import { INITIAL_OUTLETS } from '@/lib/seedData';
 
 interface Outlet {
   branchName: string;
@@ -38,20 +39,17 @@ interface Outlet {
 }
 
 export default function OutletsPage() {
-  const [outlets, setOutlets] = useState<Outlet[]>([]);
+  const [outlets, setOutlets] = useState<Outlet[]>(INITIAL_OUTLETS as Outlet[]);
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function loadOutlets() {
       try {
-        setLoading(true);
         const res = await fetchAPI<{ data: Outlet[] }>('/api/outlets');
-        if (res?.data) setOutlets(res.data);
+        if (res?.data && res.data.length > 0) setOutlets(res.data);
       } catch (_e) {
         // Fallback default dataset handled cleanly
-      } finally {
-        setLoading(false);
       }
     }
     loadOutlets();
@@ -122,6 +120,7 @@ export default function OutletsPage() {
                     src={outlet.image}
                     alt={outlet.branchName}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-mehfil-burgundy-dark via-mehfil-burgundy-dark/30 to-transparent" />

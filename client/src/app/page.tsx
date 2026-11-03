@@ -295,6 +295,7 @@ function HomeContent() {
                   src={dish.image}
                   alt={dish.title}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-mehfil-burgundy-dark via-transparent to-transparent opacity-80" />

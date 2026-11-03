@@ -20,6 +20,7 @@ import { DishModal } from '@/components/DishModal';
 import { fetchAPI } from '@/lib/api';
 import { formatCurrency } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
+import { INITIAL_CATEGORIES, INITIAL_MENU_ITEMS } from '@/lib/seedData';
 
 interface PortionSize {
   name: 'Single' | 'Regular' | 'Jumbo' | 'Handi';
@@ -47,9 +48,9 @@ interface MenuItem {
 
 export default function MenuPage() {
   const { addItem } = useCart();
-  const [items, setItems] = useState<MenuItem[]>([]);
-  const [categories, setCategories] = useState<{ name: string; slug: string }[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState<MenuItem[]>(INITIAL_MENU_ITEMS as MenuItem[]);
+  const [categories, setCategories] = useState<{ name: string; slug: string }[]>(INITIAL_CATEGORIES);
+  const [loading, setLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [vegOnly, setVegOnly] = useState(false);
@@ -61,18 +62,15 @@ export default function MenuPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        setLoading(true);
         const [catsRes, menuRes] = await Promise.all([
           fetchAPI<{ data: { name: string; slug: string }[] }>('/api/categories'),
           fetchAPI<{ data: MenuItem[] }>('/api/menu?includeUnavailable=true&all=true'),
         ]);
 
-        if (catsRes?.data) setCategories(catsRes.data);
-        if (menuRes?.data) setItems(menuRes.data);
+        if (catsRes?.data && catsRes.data.length > 0) setCategories(catsRes.data);
+        if (menuRes?.data && menuRes.data.length > 0) setItems(menuRes.data);
       } catch (_e) {
         // Fallback default items handled smoothly
-      } finally {
-        setLoading(false);
       }
     }
     loadData();
@@ -259,6 +257,7 @@ export default function MenuPage() {
                     src={dish.image}
                     alt={dish.title}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-mehfil-burgundy-dark via-transparent to-transparent opacity-80" />

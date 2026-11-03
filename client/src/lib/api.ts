@@ -1,10 +1,23 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const getApiBaseUrl = (): string => {
+  if (typeof window !== 'undefined') {
+    const isProdHost = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    if (isProdHost) {
+      if (process.env.NEXT_PUBLIC_API_URL && !process.env.NEXT_PUBLIC_API_URL.includes('localhost')) {
+        return process.env.NEXT_PUBLIC_API_URL;
+      }
+      return '';
+    }
+    return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  }
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+};
 
 export async function fetchAPI<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  const baseUrl = getApiBaseUrl();
+  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
   const defaultHeaders: Record<string, string> = {
     'Content-Type': 'application/json',

@@ -115,13 +115,13 @@ export const FeedbackModal: React.FC = () => {
     try {
       // Try to send to API endpoint (fail-safe if server is offline)
       try {
-        await fetch('http://localhost:5000/api/feedback', {
+        await fetch('/api/feedback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(feedbackPayload),
         });
       } catch {
-        // Backend might be offline; fallback smoothly
+        // Fallback smoothly
       }
 
       // Persist feedback locally in browser
